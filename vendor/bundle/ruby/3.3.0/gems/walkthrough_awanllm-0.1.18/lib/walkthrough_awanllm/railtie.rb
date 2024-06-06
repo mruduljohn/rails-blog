@@ -11,7 +11,6 @@ module AwanLLM
   end
 end
 
-
 # Middleware to track activities
 module AwanLLM
   class Tracker
@@ -21,29 +20,31 @@ module AwanLLM
 
     def call(env)
       status, headers, response = @app.call(env)
-      log_activity(env)
       [status, headers, response]
     end
 
-    private
-
-    def log_activity(env)
+    def update_activity_log
       log_file_path = Rails.root.join('log', 'awanllm_activity.log')
       FileUtils.mkdir_p(File.dirname(log_file_path))
       File.open(log_file_path, "a") do |file|
         file.puts("### [#{Time.now}] Activity Log")
         file.puts("\n")
-        file.puts("#### HTTP Request:")
-        file.puts("- Method: #{env['REQUEST_METHOD']}")
-        file.puts("- Path: #{env['PATH_INFO']}")
-        file.puts("\n")
-        file_changes = `git diff --name-status HEAD^ HEAD | grep -v '/vendor/'`
-        if file_changes.present?
-          file.puts("#### File Changes:")
-          file.puts(file_changes)
+        file.puts("#### Gem Changes:")
+        gem_changes = `git diff-tree --no-commit-id --name-status -r HEAD^..HEAD Gemfile.lock | grep -v '/vendor/'`
+        if gem_changes.present?
+          gem_changes.each_line do |line|
+            file.puts("- #{line.strip}")
+          end
           file.puts("\n")
         end
-        # Add more logging for other activities as needed
+        file.puts("#### File Changes:")
+        file_changes = `git diff --name-status HEAD^ HEAD | grep -v '/vendor/'`
+        if file_changes.present?
+          file_changes.each_line do |line|
+            file.puts("- #{line.strip}")
+          end
+          file.puts("\n")
+        end
       end
     end
   end
