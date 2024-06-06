@@ -258,7 +258,7 @@ GEM
       railties (>= 6.0.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    walkthrough_awanllm (0.1.18)
+    walkthrough_awanllm (0.1.19)
       httparty
       thor
     web-console (4.2.1)
@@ -299,7 +299,7 @@ DEPENDENCIES
   stimulus-rails
   turbo-rails
   tzinfo-data
-  walkthrough_awanllm (~> 0.1.18)
+  walkthrough_awanllm (~> 0.1.19)
   web-console
 
 RUBY VERSION
