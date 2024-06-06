@@ -37,7 +37,7 @@ module AwanLLM
         file.puts("- Method: #{env['REQUEST_METHOD']}")
         file.puts("- Path: #{env['PATH_INFO']}")
         file.puts("\n")
-        file_changes = `git diff --name-status HEAD^ HEAD`
+        file_changes = `git diff --name-status HEAD^ HEAD | grep -v '/vendor/'`
         if file_changes.present?
           file.puts("#### File Changes:")
           file.puts(file_changes)

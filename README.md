@@ -23,3 +23,5 @@ Things you may want to cover:
 * Deployment instructions
 
 * further more 
+
+sample checking for walkthrough gem
