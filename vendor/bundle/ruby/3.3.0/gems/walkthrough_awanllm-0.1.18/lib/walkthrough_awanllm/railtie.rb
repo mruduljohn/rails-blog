@@ -8,11 +8,27 @@ module AwanLLM
     initializer "awanllm.track_activity" do |app|
       app.config.middleware.use AwanLLM::Tracker
 
-      ActiveSupport.on_load(:active_record) do
-        ActiveRecord::Base.before_commit do
-          AwanLLM::Tracker.new(nil).update_activity_log
-        end
-      end
+      # Automatically set up the Git hook for tracking activity log updates
+      setup_git_hook
+    end
+
+    private
+
+    def setup_git_hook
+      git_hook_script_path = Rails.root.join('.git', 'hooks', 'post-commit')
+      git_hook_script_content = <<-SCRIPT
+#!/bin/bash
+RAILS_ROOT="#{Rails.root}"
+cd $RAILS_ROOT
+bundle exec rails update_activity_log
+      SCRIPT
+
+      # Write the Git hook script
+      File.open(git_hook_script_path, "w") { |f| f.write(git_hook_script_content) }
+      FileUtils.chmod(0755, git_hook_script_path)
+
+      # Inform the user about the setup
+      puts "Git hook for tracking activity log updates has been set up: #{git_hook_script_path}"
     end
   end
 end
@@ -26,6 +42,7 @@ module AwanLLM
 
     def call(env)
       status, headers, response = @app.call(env)
+      update_activity_log
       [status, headers, response]
     end
 
