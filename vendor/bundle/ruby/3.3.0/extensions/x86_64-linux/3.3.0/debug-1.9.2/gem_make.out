@@ -1,0 +1,19 @@
+current directory: /home/mrudul/code/rails/blog/vendor/bundle/ruby/3.3.0/gems/debug-1.9.2/ext/debug
+/home/mrudul/.rbenv/versions/3.3.0/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/mrudul/code/rails/blog/vendor/bundle/ruby/3.3.0/gems/debug-1.9.2/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20240606-86321-nfi4t1 sitelibdir\=./.gem.20240606-86321-nfi4t1 clean
+
+current directory: /home/mrudul/code/rails/blog/vendor/bundle/ruby/3.3.0/gems/debug-1.9.2/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20240606-86321-nfi4t1 sitelibdir\=./.gem.20240606-86321-nfi4t1
+compiling debug.c
+compiling iseq_collector.c
+linking shared-object debug/debug.so
+
+current directory: /home/mrudul/code/rails/blog/vendor/bundle/ruby/3.3.0/gems/debug-1.9.2/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20240606-86321-nfi4t1 sitelibdir\=./.gem.20240606-86321-nfi4t1 install
+/usr/bin/install -c -m 0755 debug.so ./.gem.20240606-86321-nfi4t1/debug
+
+current directory: /home/mrudul/code/rails/blog/vendor/bundle/ruby/3.3.0/gems/debug-1.9.2/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20240606-86321-nfi4t1 sitelibdir\=./.gem.20240606-86321-nfi4t1 clean
