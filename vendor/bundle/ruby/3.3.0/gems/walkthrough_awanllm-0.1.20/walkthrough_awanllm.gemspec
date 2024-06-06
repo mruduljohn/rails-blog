@@ -28,6 +28,7 @@ Gem::Specification.new do |spec|
     "lib/walkthrough_awanllm/railtie.rb",
     "lib/walkthrough_awanllm/version.rb",
     "bin/setup_awanllm.rb", # Include setup_awanllm.rb file
+    "lib/tasks/generate_walkthrough.rake", # Include generate_walkthrough.rake file
   ]
 
   spec.bindir = "bin"

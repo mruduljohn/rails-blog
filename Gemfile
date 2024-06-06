@@ -10,7 +10,7 @@ gem "sprockets-rails"
 gem 'git'
 
 #WALKTHROUGH_AWANLLM
-gem 'walkthrough_awanllm', "~> 0.1.19"
+gem 'walkthrough_awanllm', "~> 0.1.20"
 
 #Use PostgreSQL as the database for Active Record
 gem "sqlite3", "~> 1.4"

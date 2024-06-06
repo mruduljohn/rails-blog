@@ -30,7 +30,7 @@ $ gem install walkthrough_awanllm
 After installing the gem, you need to configure it by running the setup script. This will prompt you for your AwanLLM API key and the model name you wish to use.
 
 ```sh
-$ ruby ./vendor/bundle/ruby/YOUR_VERSION/gems/walkthrough_awanllm-0.1.19/bin/setup_awanllm.rb
+$ ruby ./vendor/bundle/ruby/YOUR_VERSION/gems/walkthrough_awanllm-0.1.20/bin/setup_awanllm.rb
 ```
 
 ## Usage
@@ -45,7 +45,10 @@ rails console
 > awanllm = WalkthroughAwanllm::AwanLLM.new
 > awanllm.generate_walkthrough
 ```
-
+Or by running :
+```ruby
+rails awanllm:generate_walkthrough
+```
 This will read the activity log and generate a `walkthrough.md` file in the project's root directory.
 
 ## Development
