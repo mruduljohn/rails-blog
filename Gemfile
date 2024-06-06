@@ -7,6 +7,7 @@ gem "rails", "~> 7.1.3", ">= 7.1.3.2"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
+gem 'git'
 
 #WALKTHROUGH_AWANLLM
 gem 'walkthrough_awanllm', "~> 0.1.18"
@@ -55,6 +56,7 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+  gem 'listen', '>= 3.0.5', '< 3.2'
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
