@@ -7,6 +7,12 @@ module AwanLLM
   class Railtie < Rails::Railtie
     initializer "awanllm.track_activity" do |app|
       app.config.middleware.use AwanLLM::Tracker
+
+      ActiveSupport.on_load(:active_record) do
+        ActiveRecord::Base.before_commit do
+          AwanLLM::Tracker.new(nil).update_activity_log
+        end
+      end
     end
   end
 end
