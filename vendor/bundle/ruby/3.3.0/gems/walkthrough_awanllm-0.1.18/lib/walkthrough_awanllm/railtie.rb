@@ -8,7 +8,6 @@ module AwanLLM
     initializer "awanllm.track_activity" do |app|
       app.config.middleware.use AwanLLM::Tracker
 
-      # Automatically set up the Git hook for tracking activity log updates
       setup_git_hook
     end
 
@@ -20,7 +19,7 @@ module AwanLLM
 #!/bin/bash
 RAILS_ROOT="#{Rails.root}"
 cd $RAILS_ROOT
-bundle exec rails update_activity_log
+bundle exec rails runner "AwanLLM::Tracker.new.update_activity_log"
       SCRIPT
 
       # Write the Git hook script
@@ -36,38 +35,31 @@ end
 # Middleware to track activities
 module AwanLLM
   class Tracker
-    def initialize(app)
+    def initialize(app = nil)
       @app = app
     end
 
     def call(env)
       status, headers, response = @app.call(env)
-      update_activity_log
       [status, headers, response]
     end
 
     def update_activity_log
       log_file_path = Rails.root.join('log', 'awanllm_activity.log')
       FileUtils.mkdir_p(File.dirname(log_file_path))
+
+      # Get the latest commit details
+      commit_details = `git log -1 --pretty=format:"%H %an %ad %s" --date=iso`
+      file_changes = `git diff-tree --no-commit-id --name-status -r HEAD`
+
       File.open(log_file_path, "a") do |file|
         file.puts("### [#{Time.now}] Activity Log")
-        file.puts("\n")
-        file.puts("#### Gem Changes:")
-        gem_changes = `git diff-tree --no-commit-id --name-status -r HEAD^..HEAD Gemfile.lock | grep -v '/vendor/'`
-        if gem_changes.present?
-          gem_changes.each_line do |line|
-            file.puts("- #{line.strip}")
-          end
-          file.puts("\n")
-        end
+        file.puts("#### Commit Details: #{commit_details.strip}")
         file.puts("#### File Changes:")
-        file_changes = `git diff --name-status HEAD^ HEAD | grep -v '/vendor/'`
-        if file_changes.present?
-          file_changes.each_line do |line|
-            file.puts("- #{line.strip}")
-          end
-          file.puts("\n")
+        file_changes.each_line do |line|
+          file.puts("- #{line.strip}")
         end
+        file.puts("\n")
       end
     end
   end
