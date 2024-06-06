@@ -11,6 +11,7 @@ module AwanLLM
   end
 end
 
+
 # Middleware to track activities
 module AwanLLM
   class Tracker
@@ -36,11 +37,12 @@ module AwanLLM
         file.puts("- Method: #{env['REQUEST_METHOD']}")
         file.puts("- Path: #{env['PATH_INFO']}")
         file.puts("\n")
-        file.puts("#### File Changes:")
-        `git status --porcelain`.each_line do |line|
-          file.puts("- #{line.strip}") if line =~ /^[ MAD]\s+[^\/]+/
+        file_changes = `git diff --name-status HEAD^ HEAD`
+        if file_changes.present?
+          file.puts("#### File Changes:")
+          file.puts(file_changes)
+          file.puts("\n")
         end
-        file.puts("\n")
         # Add more logging for other activities as needed
       end
     end
